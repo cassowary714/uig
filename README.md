@@ -20,3 +20,4 @@ To not go over rate limits, a job queue is used. A worker will process requests 
 * Edit `Constants.py` with your API key and DSN for database support.
 * `python main.py` (or hook it up to WSGI/nginx/something; it's a standard Flask application)
 * http://localhost:5000
+* Working? Good. Now run `rqworker`, or all of your page submissions will just stay in queue forever.
