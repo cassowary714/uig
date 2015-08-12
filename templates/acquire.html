@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block additional_js %}
+	<script>
+		function dl(){document.getElementById('dl-msg').style.display='block';var b=document.getElementById("jason").value,b=new Blob([b],{type:"text/plain"}),a=document.createElement("a");a.download="{{ champion.id }}CustomUIG.json";a.innerHTML="Download Item Set";null!=window.webkitURL?a.href=window.webkitURL.createObjectURL(b):(a.href=window.URL.createObjectURL(b),a.onclick=removeTarget,a.style.display="none",document.body.appendChild(a));a.click()}function removeTarget(b){document.body.removeChild(b.target)};
+	</script>
+{% endblock %}
+{% block additional_css %}
+	<link rel="stylesheet" type="text/css" href="//brick.a.ssl.fastly.net/TeX Gyre Heros:400,700">
+	<style>
+		p, input, span.supplement, button, select, h1, h2, h3 { font-family: 'TeX Gyre Heros', sans-serif; font-weight: normal }
+		.center { text-align: center }
+		body { margin-top: 2vh }
+		#postback { margin-top: 5vh }
+		img { vertical-align: middle; padding: 0; margin: 0 }
+		.media-element { color: #FFF; background: #2c3e51; padding: 10px; margin-bottom: 3vh}
+		.media-element-x h1, .media-element-x h2 { margin: 0; padding: 0; display: inline-block; vertical-align: middle;}
+		h2.block-top { padding: 10px; border-radius: 5px; color: #FFF }
+		h2.block-top { background-image: -ms-linear-gradient(right, rgba(255,255,255,1) 0%, rgba(44,62,80,1) 100%); background-image: -moz-linear-gradient(right, rgba(255,255,255,1) 0%, rgba(44,62,80,1) 100%); background-image: -o-linear-gradient(right, rgba(255,255,255,1) 0%, rgba(44,62,80,1) 100%); background-image: -webkit-gradient(linear, right top, left top, color-stop(0, rgba(255,255,255,1)), color-stop(100, rgba(44,62,80,1))); background-image: -webkit-linear-gradient(right, rgba(255,255,255,1) 0%, rgba(44,62,80,1) 100%); background-image: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(44,62,80,1) 100%); }
+		img.resp-item { margin-right:15px; border-radius: 5px; margin-bottom: 15px;}
+		div.item-block { margin-left: 2% }
+		span.fit { font-size: 6vh; margin: 0; padding: 0 }
+		h1 { font-size: 4em }
+		div.primary { padding-bottom: 25vh }
+		#dl-msg { display: none }
+	</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="center"><a href="/">The Unopinionated Itemset Generator</a></h1>
+<!-- end ctr -->
+
+<!-- top bar thing. -->
+<div class="row media-element">
+	<div class="col-xxs-1 text-center"><img src="//ddragon.leagueoflegends.com/cdn/5.15.1/img/profileicon/{{ summoner.profileIconId }}.png"></div>
+	<div class="col-xxs-10 text-pull media-element-x"><span class="fit">{{ summoner.name }}</span></div>
+	<div class="col-xxs-1 text-push"><img src="//ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/{{ champion.id }}.png"></div>
+</div>
+
+<!-- start listing items here. -->
+<div class="primary">
+	<div class="row">
+		<div class="col-xxs-12">
+			<textarea id="jason" readonly style="font-family: monospace; display: none; width: 100%; height: 80px;">{{ json }}</textarea>
+			<button id="dl" onclick="dl();" style="width: 100%; height: 100%">Download Itemset</button>
+			<div class="alert" role="alert" id="dl-msg">
+				<p class="text-center">To activate your new item set, save it to the folder <code>C:\Riot Games\League of Legends\Config\Champions\{{ champion.id }}\Recommended\</code>.</p>
+			</div>
+		</div>
+	</div>
+	{% for key in ['starting', 'consumable', 'early', 'core', 'situational'] -%}
+	<h2 class="block-top">{{ loadout_names[key] }}</h2>
+	<div class="item-block">
+		{% for item in data[key] -%}
+			<img data-item="{{ item }}" class="resp-item" src="//ddragon.leagueoflegends.com/cdn/5.15.1/img/item/{{ item }}.png"> 
+		{% endfor %}
+	</div>
+	{% endfor %}
+{% endblock %}

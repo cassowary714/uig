@@ -1,0 +1,7 @@
+requests_cache
+flask
+dataset
+requests
+redis
+MySQL-python
+rq

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block additional_css %}
+	<link rel="stylesheet" type="text/css" href="//brick.a.ssl.fastly.net/TeX Gyre Heros:400,700">
+	<style>
+		p, input, span.supplement, button, select, h1, h2, h3 { font-family: 'TeX Gyre Heros', sans-serif; font-weight: normal }
+		.center { text-align: center }
+		h1 { font-size: 4em }
+		body { margin-top: 25vh }
+		#postback { margin-top: 10vh }
+	</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="center">The Unopinionated Itemset Generator</h1>
+<h2 class="center">
+	Sometimes you're set in your own ways.
+	<br>You don't want someone else's item sets or to follow the meta based on winrates.
+	<br>Here's a convenient way of accessing your own item builds.
+</h2>
+
+<form id="postback" method="post" action="/">
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages -%}
+				<div class="alert alert-dismissable" role="alert">
+					<button data-dismiss-target=".alert" class="close">x</button>
+					<p>{{ message }}</p>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+
+	<div class="row">
+		<div class="col-s-2">
+			<div class="input-group">
+				<span class="input-group-addon supplement">Region</span><select id="s-region" name="region" required>
+					{% for region in regions -%}
+						<option value='{{ region }}'>{{ region.upper() }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		<div class="col-s-5">
+			<div class="input-group">
+				<span class="input-group-addon supplement">Summoner name</span>
+				<input id="s-name" name="name" required>
+			</div>
+		</div>
+		<div class="col-s-4">
+			<div class="input-group">
+				<span class="input-group-addon supplement">Champion</span>
+				<select id="s-hero" name="hero" required>
+					{% for hero in heroes.values() -%}
+						<option value='{{ hero.key }}'>{{ hero.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		<div class="col-s-1">
+			<button type="submit">Discover</button>
+		</div>
+	</div>
+</form>
+{% endblock %}
