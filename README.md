@@ -14,3 +14,9 @@ I guess you can also copy your favourite pro player's builds or something, in ad
 ## Rate limiting
 To not go over rate limits, a job queue is used. A worker will process requests at a determined speed. If you are using a higher limit key, you can just run additional workers to process multiple grabs at the same time. Jobs will not be processed at all until you have a worker process running.
 
+## Running
+* Have a redis server running.
+* `pip install requests flask requests_cache simplejson dataset redis rq`
+* Edit `Constants.py` with your API key and DSN for database support.
+* `python main.py` (or hook it up to WSGI/nginx/something; it's a standard Flask application)
+* http://localhost:5000
